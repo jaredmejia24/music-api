@@ -133,16 +133,36 @@ export const login: RequestHandler = async (req, res, next) => {
     // Generate JWT (payload, secretOrPrivateKey, options)
     const SECRET_KEY: Secret = process.env.JWT_SECRET || "secret";
     const token = jwt.sign({ id: user.id }, SECRET_KEY, {
-      expiresIn: "30d",
+      expiresIn: "2m",
     });
 
     // Remove password from response
     const userToSend: User = user;
     delete userToSend.password;
 
+    //set cookie
+    const options = {
+      httpOnly: true,
+    };
+
+    res.cookie("token", token, options);
+
     res.status(200).json({
       status: "success",
-      data: { user: userToSend, token },
+      data: { user: userToSend },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const logout: RequestHandler = async (req, res, next) => {
+  try {
+    res.clearCookie("token");
+
+    res.status(200).json({
+      status: "success",
+      message: "the user is no longer in session",
     });
   } catch (error) {
     next(error);

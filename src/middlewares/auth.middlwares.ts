@@ -17,20 +17,11 @@ interface JwtPayload {
 export const protectSession: RequestHandler = async (req, res, next) => {
   try {
     // Get token
-    let token;
-
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
-    ) {
-      // Extract token
-      // req.headers.authorization = 'Bearer token'
-      token = req.headers.authorization.split(" ")[1]; // -> [Bearer, token]
-    }
+    const { token } = req.cookies;
 
     // Check if the token was sent or not
     if (!token) {
-      throw new AppError("The token was invalid", 403);
+      throw new AppError("The user is not logged in", 403);
     }
 
     // Verify the token

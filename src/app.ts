@@ -1,3 +1,4 @@
+import cookieParser from "cookie-parser";
 import express, { Express } from "express";
 import { globalErrorHandler } from "./controller/error.controller";
 import { usersRouter } from "./routes/users.routes";
@@ -5,6 +6,8 @@ import { usersRouter } from "./routes/users.routes";
 const app: Express = express();
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.use("/api/v1/users", usersRouter);
 

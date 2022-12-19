@@ -1,10 +1,14 @@
+import express from "express";
+
+//middlewares
 import {
   protectAdmin,
   protectSession,
   protectUsersAccount,
 } from "./../middlewares/auth.middlwares";
+
+//validators
 import { createUserValidators } from "./../middlewares/validators.middlewares";
-import express from "express";
 
 //controllers
 import {
@@ -14,6 +18,7 @@ import {
   updateUser,
   deleteUser,
   login,
+  logout,
 } from "../controller/users.controller";
 import { userExists } from "../middlewares/users.middlewares";
 
@@ -25,6 +30,8 @@ usersRouter.post("/login", login);
 
 // Protecting below endpoints
 usersRouter.use(protectSession);
+
+usersRouter.post("/logout", logout);
 
 usersRouter.get("/", getAllUsers);
 

@@ -8,7 +8,11 @@ import {
 } from "./../middlewares/auth.middlwares";
 
 //validators
-import { createUserValidators } from "./../middlewares/validators.middlewares";
+import {
+  createUserValidators,
+  idParamValidators,
+  updateUserValidators,
+} from "./../middlewares/validators.middlewares";
 
 //controllers
 import {
@@ -20,6 +24,8 @@ import {
   login,
   logout,
 } from "../controller/users.controller";
+
+//user middlewares
 import { userExists } from "../middlewares/users.middlewares";
 
 const usersRouter = express.Router();
@@ -33,14 +39,27 @@ usersRouter.use(protectSession);
 
 usersRouter.post("/logout", logout);
 
-usersRouter.patch("/:id", userExists, protectUsersAccount, updateUser);
+usersRouter.patch(
+  "/:id",
+  idParamValidators,
+  userExists,
+  protectUsersAccount,
+  updateUserValidators,
+  updateUser
+);
 
-usersRouter.delete("/:id", userExists, protectUsersAccount, deleteUser);
+usersRouter.delete(
+  "/:id",
+  idParamValidators,
+  userExists,
+  protectUsersAccount,
+  deleteUser
+);
 
 usersRouter.use(protectAdmin);
 
 usersRouter.get("/", getAllUsers);
 
-usersRouter.get("/:id", userExists, getUserById);
+usersRouter.get("/:id", idParamValidators, userExists, getUserById);
 
 export { usersRouter };

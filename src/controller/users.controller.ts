@@ -9,11 +9,12 @@ dotenv.config();
 
 export const getAllUsers: RequestHandler = async (req, res, next) => {
   try {
-    const users: User[] = await prisma.user.findMany({
+    const users = await prisma.user.findMany({
       where: { status: "active" },
     });
 
     for (let user of users) {
+      //@ts-expect-error
       delete user.password;
     }
 
@@ -53,10 +54,11 @@ export const createUser: RequestHandler = async (req, res, next) => {
     const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser: User = await prisma.user.create({
+    const newUser = await prisma.user.create({
       data: { name, email, password: hashedPassword, role },
     });
 
+    //@ts-expect-error
     delete newUser.password;
     // 201 -> Success and a resource has been created
     res.status(201).json({
@@ -73,11 +75,12 @@ export const updateUser: RequestHandler = async (req, res, next) => {
     const { name } = req.body;
     const { user } = req;
 
-    const updatedUser: User = await prisma.user.update({
-      where: { id: user?.id },
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
       data: { name },
     });
 
+    //@ts-expect-error
     delete updatedUser.password;
 
     res.status(200).json({
@@ -94,7 +97,7 @@ export const deleteUser: RequestHandler = async (req, res, next) => {
     const { user } = req;
 
     await prisma.user.update({
-      where: { id: user?.id },
+      where: { id: user.id },
       data: { status: "disabled" },
     });
 
@@ -110,10 +113,7 @@ export const login: RequestHandler = async (req, res, next) => {
     const { email, password } = req.body;
 
     // Validate if the user exist with given email
-    interface UserWithPassword extends User {
-      password: string;
-    }
-    const user: UserWithPassword | null = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { email },
     });
 
@@ -137,8 +137,8 @@ export const login: RequestHandler = async (req, res, next) => {
     });
 
     // Remove password from response
-    const userToSend: User = user;
-    delete userToSend.password;
+    //@ts-expect-error
+    delete user.password;
 
     //set cookie
     const options = {
@@ -149,7 +149,7 @@ export const login: RequestHandler = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: { user: userToSend },
+      data: { user },
     });
   } catch (error) {
     next(error);

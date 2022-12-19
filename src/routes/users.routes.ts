@@ -20,6 +20,8 @@ import {
   login,
   logout,
 } from "../controller/users.controller";
+
+//user middlewares
 import { userExists } from "../middlewares/users.middlewares";
 
 const usersRouter = express.Router();

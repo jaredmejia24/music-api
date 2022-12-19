@@ -9,6 +9,7 @@ import { globalErrorHandler } from "./controller/error.controller";
 
 //Routes
 import { usersRouter } from "./routes/users.routes";
+import { artistsRouter } from "./routes/artists.routes";
 
 import * as dotenv from "dotenv";
 
@@ -28,6 +29,7 @@ if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 else if (process.env.NODE_ENV === "production") app.use(morgan("combined"));
 
 app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/artists", artistsRouter);
 
 //catch errors
 app.use(globalErrorHandler);

@@ -54,7 +54,7 @@ export const protectUsersAccount: RequestHandler = (req, res, next) => {
     // const { id } = req.params;
 
     // If the users (ids) don't match, send an error, otherwise continue
-    if (sessionUser?.id !== user?.id) {
+    if (sessionUser.id !== user.id) {
       throw new AppError("You are not the owner of this account.", 403);
     }
 
@@ -70,7 +70,7 @@ export const protectAdmin: RequestHandler = (req, res, next) => {
   try {
     const { sessionUser } = req;
 
-    if (sessionUser?.role !== "admin") {
+    if (sessionUser.role !== "admin") {
       throw new AppError("You do not have the right access level.", 403);
     }
 

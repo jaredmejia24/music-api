@@ -10,6 +10,7 @@ import {
 //validators
 import {
   createUserValidators,
+  idParamValidators,
   updateUserValidators,
 } from "./../middlewares/validators.middlewares";
 
@@ -40,18 +41,25 @@ usersRouter.post("/logout", logout);
 
 usersRouter.patch(
   "/:id",
+  idParamValidators,
   userExists,
   protectUsersAccount,
   updateUserValidators,
   updateUser
 );
 
-usersRouter.delete("/:id", userExists, protectUsersAccount, deleteUser);
+usersRouter.delete(
+  "/:id",
+  idParamValidators,
+  userExists,
+  protectUsersAccount,
+  deleteUser
+);
 
 usersRouter.use(protectAdmin);
 
 usersRouter.get("/", getAllUsers);
 
-usersRouter.get("/:id", userExists, getUserById);
+usersRouter.get("/:id", idParamValidators, userExists, getUserById);
 
 export { usersRouter };

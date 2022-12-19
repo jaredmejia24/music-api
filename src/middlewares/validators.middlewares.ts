@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { body, validationResult } from "express-validator";
+import { body, param, validationResult } from "express-validator";
 import { AppError } from "../utils/appError";
 
 const checkValidations: RequestHandler = (req, res, next) => {
@@ -20,6 +20,16 @@ const checkValidations: RequestHandler = (req, res, next) => {
     next(error);
   }
 };
+
+export const idParamValidators = [
+  param("id")
+    .exists()
+    .toInt()
+    .isNumeric()
+    .isInt()
+    .withMessage("Param needs to be an integer"),
+  checkValidations,
+];
 
 export const createUserValidators = [
   body("name")
@@ -48,5 +58,61 @@ export const updateUserValidators = [
     .withMessage("Name cannot be empty")
     .isLength({ min: 3 })
     .withMessage("Name must be at least 3 characters"),
+  checkValidations,
+];
+
+export const artistIdParamValidators = [
+  param("artistId")
+    .exists()
+    .toInt()
+    .isNumeric()
+    .isInt()
+    .withMessage("Param needs to be an integer"),
+  checkValidations,
+];
+
+export const createArtistValidators = [
+  body("name")
+    .isString()
+    .withMessage("name must be a string")
+    .notEmpty()
+    .withMessage("name cannot be empty"),
+  body("genre")
+    .isString()
+    .withMessage("genre must be a string")
+    .notEmpty()
+    .withMessage("genre cannot be empty"),
+  checkValidations,
+];
+
+export const updateArtistValidators = [
+  body("name")
+    .isString()
+    .withMessage("name must be a string")
+    .notEmpty()
+    .withMessage("name cannot be empty"),
+  checkValidations,
+];
+
+export const createAlbumValidators = [
+  body("title")
+    .isString()
+    .withMessage("title must be a string")
+    .notEmpty()
+    .withMessage("title cannot be empty"),
+  body("genre")
+    .isString()
+    .withMessage("genre must be a string")
+    .notEmpty()
+    .withMessage("genre cannot be empty"),
+  checkValidations,
+];
+
+export const createSongValidators = [
+  body("title")
+    .isString()
+    .withMessage("title must be a string")
+    .notEmpty()
+    .withMessage("title cannot be empty"),
   checkValidations,
 ];

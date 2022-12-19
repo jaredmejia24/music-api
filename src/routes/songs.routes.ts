@@ -15,6 +15,7 @@ import { protectSession } from "../middlewares/auth.middlwares";
 //validators
 import {
   albumIdParamValidators,
+  createSongValidators,
   idParamValidators,
 } from "../middlewares/validators.middlewares";
 
@@ -35,12 +36,24 @@ songsRouter.get(
 
 songsRouter.use(protectSession);
 
-songsRouter.post("/:albumId", albumIdParamValidators, albumExist, createSong);
+songsRouter.post(
+  "/:albumId",
+  albumIdParamValidators,
+  createSongValidators,
+  albumExist,
+  createSong
+);
 
-songsRouter.patch("/:id", idParamValidators, songExist, updateSong);
+songsRouter.patch(
+  "/:id",
+  idParamValidators,
+  createSongValidators,
+  songExist,
+  updateSong
+);
 
 songsRouter.delete("/:id", idParamValidators, songExist, deleteSong);
-    
+
 songsRouter.post(
   "/favorite/:id",
   idParamValidators,

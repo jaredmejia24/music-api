@@ -8,7 +8,10 @@ import {
 } from "./../middlewares/auth.middlwares";
 
 //validators
-import { createUserValidators } from "./../middlewares/validators.middlewares";
+import {
+  createUserValidators,
+  updateUserValidators,
+} from "./../middlewares/validators.middlewares";
 
 //controllers
 import {
@@ -35,7 +38,13 @@ usersRouter.use(protectSession);
 
 usersRouter.post("/logout", logout);
 
-usersRouter.patch("/:id", userExists, protectUsersAccount, updateUser);
+usersRouter.patch(
+  "/:id",
+  userExists,
+  protectUsersAccount,
+  updateUserValidators,
+  updateUser
+);
 
 usersRouter.delete("/:id", userExists, protectUsersAccount, deleteUser);
 

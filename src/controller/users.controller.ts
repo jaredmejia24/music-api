@@ -133,7 +133,7 @@ export const login: RequestHandler = async (req, res, next) => {
     // Generate JWT (payload, secretOrPrivateKey, options)
     const SECRET_KEY: Secret = process.env.JWT_SECRET || "secret";
     const token = jwt.sign({ id: user.id }, SECRET_KEY, {
-      expiresIn: "2m",
+      expiresIn: "30d",
     });
 
     // Remove password from response

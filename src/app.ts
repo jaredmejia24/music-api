@@ -1,13 +1,31 @@
-import cookieParser from "cookie-parser";
 import express, { Express } from "express";
+import compression from "compression";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import morgan from "morgan";
+
+//error controller
 import { globalErrorHandler } from "./controller/error.controller";
+
+//Routes
 import { usersRouter } from "./routes/users.routes";
+
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const app: Express = express();
 
 app.use(express.json());
 
 app.use(cookieParser());
+
+app.use(helmet());
+
+app.use(compression());
+
+if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
+else if (process.env.NODE_ENV === "production") app.use(morgan("combined"));
 
 app.use("/api/v1/users", usersRouter);
 

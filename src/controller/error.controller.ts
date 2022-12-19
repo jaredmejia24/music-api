@@ -48,7 +48,6 @@ export const globalErrorHandler: ErrorRequestHandler = (
   } else if (process.env.NODE_ENV === "production") {
     let err = { ...error };
     err.message = error.message || "Something went wrong!";
-
     if (error.name === "TokenExpiredError") err = tokenExpiredError();
     else if (error.name === "JsonWebTokenError")
       err = tokenInvalidSignatureError();

@@ -12,7 +12,8 @@
     "dev": "npm-run-all --parallel tsc:watch js:nodemon"
   },
   "prisma": {
-    "seed": "ts-node ./src/prisma/seeds/seeds.ts"
+    "seed": "ts-node ./src/prisma/seeds/seeds.ts",    
+    "schema": "./src/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",

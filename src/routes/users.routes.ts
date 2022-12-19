@@ -33,13 +33,13 @@ usersRouter.use(protectSession);
 
 usersRouter.post("/logout", logout);
 
-usersRouter.get("/", getAllUsers);
-
 usersRouter.patch("/:id", userExists, protectUsersAccount, updateUser);
 
 usersRouter.delete("/:id", userExists, protectUsersAccount, deleteUser);
 
 usersRouter.use(protectAdmin);
+
+usersRouter.get("/", getAllUsers);
 
 usersRouter.get("/:id", userExists, getUserById);
 

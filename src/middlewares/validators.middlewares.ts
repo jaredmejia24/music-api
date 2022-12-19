@@ -94,6 +94,16 @@ export const updateArtistValidators = [
   checkValidations,
 ];
 
+export const albumIdParamValidators = [
+  param("albumId")
+    .exists()
+    .toInt()
+    .isNumeric()
+    .isInt()
+    .withMessage("Param needs to be an integer"),
+  checkValidations,
+];
+
 export const createAlbumValidators = [
   body("title")
     .isString()
